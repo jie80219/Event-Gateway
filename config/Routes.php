@@ -7,6 +7,11 @@ return function (RouteCollector $route) {
      * system default route
      */
     $route->get('/',[\App\Controllers\HeartBeat::class, 'index']);
+    $route->get('/test',[\App\Controllers\HeartBeat::class, 'test']);
+    $route->post('/testPost',[\App\Controllers\HeartBeat::class, 'testPost']);
+
+    $route->get('/products',[\App\Controllers\Product::class, 'products']);
+
 }
 
 ?>

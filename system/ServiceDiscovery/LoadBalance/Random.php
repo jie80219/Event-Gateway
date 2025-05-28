@@ -1,7 +1,8 @@
 <?php 
 namespace AnserGateway\ServiceDiscovery\LoadBalance;
+use AnserGateway\ServiceDiscovery\LoadBalance\LoadBalanceInterface;
 
-class Random
+class Random implements LoadBalanceInterface
 {
     /**
      * 隨機選出一個服務

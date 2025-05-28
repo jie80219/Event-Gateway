@@ -5,7 +5,9 @@ use AnserGateway\ServiceDiscovery\Exception\LoadBalanceException;
 class LoadBalance
 {
     public static $strategyMap = [
-        'random' => \AnserGateway\ServiceDiscovery\LoadBalance\Random::class
+        'random' => \AnserGateway\ServiceDiscovery\LoadBalance\Random::class,
+        'rr'     => \AnserGateway\ServiceDiscovery\LoadBalance\RoundRobin::class,
+        'least' => \AnserGateway\ServiceDiscovery\LoadBalance\LeastConnections::class
     ];
 
     /**
