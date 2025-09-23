@@ -5,9 +5,12 @@ use AnserGateway\ServiceDiscovery\Exception\LoadBalanceException;
 class LoadBalance
 {
     public static $strategyMap = [
-        'random' => \AnserGateway\ServiceDiscovery\LoadBalance\Random::class,
-        'rr'     => \AnserGateway\ServiceDiscovery\LoadBalance\RoundRobin::class,
-        'least' => \AnserGateway\ServiceDiscovery\LoadBalance\LeastConnections::class
+        'random'  => \AnserGateway\ServiceDiscovery\LoadBalance\Random::class,
+        'rr'      => \AnserGateway\ServiceDiscovery\LoadBalance\RoundRobin::class,
+        'dynamic' => \AnserGateway\ServiceDiscovery\LoadBalance\DynamicLoadBalancer::class,   // 新增的動態負載平衡演算法
+        'least' => \AnserGateway\ServiceDiscovery\LoadBalance\LeastConn::class,   
+        'ip' => \AnserGateway\ServiceDiscovery\LoadBalance\IP_hash::class  
+
     ];
 
     /**

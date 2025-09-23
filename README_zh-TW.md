@@ -4,16 +4,16 @@
 
 利用docker-compose指令建構 Anser-Gateway 容器依賴套件
 ```docker-compose
-docker-compose build
+docker compose build
 ```
 
 ## 啟動容器並進入
 
 ```docker-compose
-docker-compose up -d
+docker compose up -d
 ```
 ```docker-compose
-docker-compose exec app bash
+docker compose exec app bash
 ```
 ```command
 composer install

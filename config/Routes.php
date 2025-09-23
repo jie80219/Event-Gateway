@@ -10,6 +10,9 @@ return function (RouteCollector $route) {
     $route->get('/test',[\App\Controllers\HeartBeat::class, 'test']);
     $route->post('/testPost',[\App\Controllers\HeartBeat::class, 'testPost']);
 
+    /**
+     * service api
+     */
     $route->get('/products',[\App\Controllers\Product::class, 'products']);
 
 }
