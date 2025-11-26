@@ -13,7 +13,9 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "SDPMlab\\AnserGateway\\": "system/"
+            "App\\": "",
+            "SDPMlab\\AnserGateway\\": "system/",
+            "App\\Event\\": "app/Event"
         }
     },
     "authors": [
