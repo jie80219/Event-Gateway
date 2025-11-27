@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4905e60876a9a69cc81effb71a60feeb",
+    "content-hash": "3cc57b2069f93a74fb45e800c63e90c0",
     "packages": [
         {
             "name": "composer/semver",
@@ -1315,6 +1315,57 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "sdpmlab/anser",
+            "version": "v0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SDPM-lab/Anser.git",
+                "reference": "22751e75cc30127b3805980cc433c57194188cef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SDPM-lab/Anser/zipball/22751e75cc30127b3805980cc433c57194188cef",
+                "reference": "22751e75cc30127b3805980cc433c57194188cef",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4||^8.0",
+                "sdpmlab/anser-action": "^0.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SDPMlab\\Anser\\Exception\\": "src/Exception",
+                    "SDPMlab\\Anser\\Orchestration\\": "src/Orchestration"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SDPM-lab",
+                    "homepage": "https://github.com/SDPM-lab"
+                },
+                {
+                    "name": "MonkenWu",
+                    "homepage": "https://github.com/monkenWu"
+                }
+            ],
+            "description": "PHP microservice orchestration pattern library.",
+            "keywords": [
+                "orchestration",
+                "php",
+                "saga"
+            ],
+            "support": {
+                "issues": "https://github.com/SDPM-lab/Anser/issues",
+                "source": "https://github.com/SDPM-lab/Anser/tree/v0.1.2"
+            },
+            "time": "2023-03-02T15:17:35+00:00"
         },
         {
             "name": "sdpmlab/anser-action",
