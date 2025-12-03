@@ -45,8 +45,8 @@ class Gateway extends BaseConfig
      *
      * @var string
      */
-    public $workerUser = 'www-data';
-
+    // public $workerUser = 'www-data';
+    public $workerUser = 'jiezhiyang';#Local
     /**
      * dump() output to the terminal will be redirected to
      * the specified file when workerman run as daemon mode.

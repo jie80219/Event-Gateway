@@ -14,7 +14,7 @@ return function (RouteCollector $route) {
      * service api
      */
     $route->get('/products',[\App\Controllers\Product::class, 'products']);
-    $routes->post('api/v1/async/order', 'AsyncIngress::createOrder');
+    $route->post('api/v1/async/order', 'AsyncIngress::createOrder');
 }
 
 ?>
