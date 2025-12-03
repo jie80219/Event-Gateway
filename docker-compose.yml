@@ -1,62 +1,53 @@
-version: '3'
+version: "3"
 
 services:
-  # 1. Anser Gateway (你的 Event-Gateway 本體)
-  gateway:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: event-gateway
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./app:/app/app
-      - ./system:/app/system
-      - ./worker:/app/worker
-      # 掛載 supervisor 設定以啟動 Event Consumer
-      - ./supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
-    environment:
-      - LEGACY_WORKER=true
-    networks:
-      - backend
-    depends_on:
-      - redis
-      - rabbitmq
-      - consul
+    app:
+        build: ./
+        ports:
+            - 8080:8080
+        working_dir: /app
+        networks:
+            - anser_project_network
+        depends_on:
+            - redis
+        environment: 
+            - PHP_MEMORY_LIMIT=2048M
+            - PHP_MAX_EXECUTION_TIME=600
+            - PHP_POST_MAX_SIZE=200M
+            - PHP_UPLOAD_MAX_FILESIZE=200M
+            - XDEBUG_MODE=coverage
+        volumes:
+            - './:/app'
+                
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - "5672:5672"       # AMQP 通訊用
+            - "15672:15672"     # 管理介面用（可從瀏覽器打開 http://10.1.1.94:15672）
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        networks:
+        - anser_project_network
 
-  # 2. Redis (用於 Saga 狀態儲存與 Gateway 快取)
-  redis:
-    image: redis:alpine
-    container_name: event-redis
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - anser_project_network
 
-  # 3. RabbitMQ (用於 EDA 事件傳遞)
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: event-rabbitmq
-    ports:
-      - "5672:5672"   # AMQP 協定端口 (程式連線用)
-      - "15672:15672" # 管理介面 (瀏覽器用)
-    environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
-    networks:
-      - backend
+    redisinsight:
+        image: redis/redisinsight:latest
+        container_name: redisinsight
+        ports:
+            - "8001:5540"     # 管理介面用（可從瀏覽器打開 http://10.1.1.94:8001）
+        networks:
+            - anser_project_network
 
-  # 4. Consul (用於服務發現，維持 Anser-Gateway 原有功能)
-  consul:
-    image: consul:1.14.4 # 使用具體版本號
-    container_name: event-consul
-    ports:
-      - "8500:8500"
-    command: "agent -dev -client=0.0.0.0"
-    networks:
-      - backend
 
 networks:
-  backend:
+  anser_project_network:
     driver: bridge
     external: true

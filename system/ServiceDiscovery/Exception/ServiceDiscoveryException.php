@@ -23,9 +23,7 @@ class ServiceDiscoveryException extends AnserGatewayException
 
     public static function forAnserGatewayRegisterError($data): ServiceDiscoveryException
     {
-        // 如果沒有 code，就顯示 'Connect Error'
-        $code = $data['code'] ?? 'Connect Error'; 
-        return new self("AnserGateway 註冊至 Consul 時發生錯誤，錯誤訊息 - [{$code}] {$data['msg']}，請確認.env檔中，關於 servicediscovery 或 gatewayregister 設定是否有誤");
+        return new self("AnserGateway 註冊至 Consul 時發生錯誤，錯誤訊息 - [{$data['code']}] {$data['msg']}，請確認.env檔中，關於 servicediscovery 或 gatewayregister 設定是否有誤");
     }
 
     public static function forConsulServiceNotFound($statusCode): ServiceDiscoveryException
