@@ -1,46 +1,41 @@
 <?php namespace System\Libraries;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Channel\AMQPChannel;
 
 class QueuePublisher
 {
-    protected $connection;
-    protected $channel;
-    protected $exchange = 'api.ingress';
-    protected $queue = 'gateway.requests';
+    private AMQPStreamConnection $connection;
+    private AMQPChannel $channel;
 
-    public function __construct()
+    public function __construct(string $host, int $port, string $user, string $password)
     {
-        // 請確保這些設定寫入 .env
-        $this->connection = new AMQPStreamConnection(
-            getenv('MQ_HOST') ?: 'rabbitmq',
-            getenv('MQ_PORT') ?: 5672,
-            getenv('MQ_USER') ?: 'guest',
-            getenv('MQ_PASS') ?: 'guest'
-        );
+        // ✅ **建立 RabbitMQ 連線**
+        $this->connection = new AMQPStreamConnection($host, $port, $user, $password);
         $this->channel = $this->connection->channel();
-
-        // 宣告 Exchange 和 Queue (確保它們存在)
-        $this->channel->exchange_declare($this->exchange, 'direct', false, true, false);
-        $this->channel->queue_declare($this->queue, false, true, false, false);
-        $this->channel->queue_bind($this->queue, $this->exchange, 'request.create');
+    }
+    /**
+     * ✅ **初始化 Exchange & Queue**
+     *
+     * @param string $exchangeName 交換機名稱
+     * @param string $queueName 佇列名稱
+     * @return void
+     */
+    public function setupQueue(string $queue, string $exchange, string $routingKey)
+    {
+        // 確保 Queue 存在
+        $this->channel->queue_declare($queue, false, true, false, false);
+        
+        // 綁定 Queue 到 Exchange，並指定 Routing Key
+        $this->channel->queue_bind($queue, $exchange, $routingKey);
     }
 
-    public function publish($data, $routingKey = 'request.create')
+    /**
+     * ✅ **取得 Channel**
+     * @return AMQPChannel
+     */
+    public function getChannel(): AMQPChannel
     {
-        $msgBody = json_encode($data);
-        $msg = new AMQPMessage($msgBody, [
-            'delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT, // 確保訊息持久化
-            'content_type'  => 'application/json'
-        ]);
-
-        $this->channel->basic_publish($msg, $this->exchange, $routingKey);
-    }
-
-    public function close()
-    {
-        $this->channel->close();
-        $this->connection->close();
+        return $this->channel;
     }
 }
